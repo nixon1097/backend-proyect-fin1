@@ -39,10 +39,10 @@ const login = catchError(async(req,res)=>{
     const { email, password}= req.body
     // email
     const  user = await User.findOne({where:{email}})
-    if (!user) return res.status(403).json({message:'Invalid credentials'})
+    if (!user) return res.status(401).json({message:'Invalid credentials'})
     // password
 const validPassword = await bcrypt.compare(password, user.password) 
-if (!validPassword) return res.status(403).json({message:"Invalid credentials"})
+if (!validPassword) return res.status(401).json({message:"Invalid credentials"})
  // generetion token 
 const token = jwt.sign(  //llave que abrira la cerradura
     {user},
@@ -54,10 +54,7 @@ const token = jwt.sign(  //llave que abrira la cerradura
 
 
 })
-const loged=catchError(async(req,res)=>{
-    const user= req.user
-    return res.json(user)
-})
+
 
 module.exports = {
     getAll,
