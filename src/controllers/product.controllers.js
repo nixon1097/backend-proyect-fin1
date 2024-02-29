@@ -3,8 +3,15 @@ const Product = require('../models/Product');
 const Category = require('../models/Category');
 
 const getAll = catchError(async(req, res) => {
-    const results = await Product.findAll({include: [Category]});
-    return res.json(results);
+     const {category}=req.query // busqueda del id para filtrar
+     const where={}
+     if(category) where.categoryId=category // validacion para filtrar  por categoria o no
+    const results = await Product.findAll({
+        include: [Category],
+        where // ejecucion  de la condicion de la validacion 
+    });
+        
+     return res.json(results);
 });
 
 const create = catchError(async(req, res) => {
