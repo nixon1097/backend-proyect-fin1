@@ -13,7 +13,7 @@ let product
 
 
 beforeAll(async()=>{
-    // clogin de usuario 
+    // login de usuario 
     const user ={
       email:"nixonandrewparra@gmail.com",
       password: "1234nixon"
