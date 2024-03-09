@@ -36,7 +36,7 @@ const update = catchError(async(req, res) => {
 
 const login = catchError(async(req,res)=>{
 
-    const { email, password}= req.body
+    const { id, email, password}= req.body
     // email
     const  user = await User.findOne({where:{email}})
     if (!user) return res.status(401).json({message:'Invalid credentials'})

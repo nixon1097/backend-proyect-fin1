@@ -3,6 +3,7 @@ const Cart = require('../models/Cart');
 const User = require('../models/User');
 const Product = require('../models/Product');
 const Category = require('../models/Category');
+const ProductImg = require('../models/ProductImg');
 
 const getAll = catchError(async(req, res) => {
     const userId = req.user.id;
@@ -19,10 +20,12 @@ const getAll = catchError(async(req, res) => {
         {
             model:Product, attributes:{
                 exclude:[ 'createdAt', 'updatedAt']        
-            },include: {
+            },include:[ {
                 model:Category,
                 attributes:['name'] 
-            }
+            },{
+                model: ProductImg
+            }]
         }    
         ]});
     return res.json(results);
@@ -45,10 +48,14 @@ const getOne = catchError(async(req, res) => {
         {
             model:Product, attributes:{
                 exclude:[ 'createdAt', 'updatedAt']        
-            },include: {
+            },include:[ {
                 model:Category,
                 attributes:['name'] 
-            }
+            }, 
+            {
+                model:ProductImg
+            }    
+        ],
         }    
         ]});
     return res.json(results);
@@ -74,11 +81,11 @@ const remove = catchError(async(req, res) => {
 });
 
 const update = catchError(async(req, res) => {
+    const userId = req.user.id 
     const { id } = req.params;
-    const userId = req.body.user.id
     const { quantity } = req.body;
     const result = await Cart.update(
-        quantity,
+        {quantity},
         { where: {id,  userId}, returning: true }
     );
     if(result[0] === 0) return res.sendStatus(404);

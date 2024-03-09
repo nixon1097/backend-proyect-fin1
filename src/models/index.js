@@ -9,7 +9,7 @@ const ProductImg = require("./ProductImg");
 Product.belongsTo(Category)
 Category.hasMany(Product)
 
-//CartId-> UserId
+//CartId-> userId
 Cart.belongsTo(User)
 User.hasMany(Cart)
 
